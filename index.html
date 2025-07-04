@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stylish Calculator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .calculator {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      padding: 20px;
+      width: 320px;
+    }
+
+    .display {
+      background-color: rgba(0,0,0,0.3);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: right;
+      font-size: 2em;
+      margin-bottom: 20px;
+      word-wrap: break-word;
+    }
+
+    .result {
+      font-size: 1.2em;
+      color: #a5a5a5;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+    }
+
+    button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 1.5em;
+      padding: 20px;
+      border-radius: 15px;
+      transition: all 0.2s ease-in-out;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: scale(1.05);
+      box-shadow: 0 0 10px #00f2fe, 0 0 20px #4facfe;
+    }
+
+    .operator {
+      background-color: #ff8c00;
+      color: #fff;
+    }
+
+    .equals {
+      background-color: #32cd32;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="expression">0</div>
+    <div class="display result" id="result"></div>
+
+    <div class="buttons">
+      <button onclick="clearAll()">AC</button>
+      <button onclick="append('%')">%</button>
+      <button onclick="deleteOne()">⌫</button>
+      <button onclick="append('÷')" class="operator">÷</button>
+
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button onclick="append('×')" class="operator">×</button>
+
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button onclick="append('-')" class="operator">−</button>
+
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button onclick="append('+')" class="operator">+</button>
+
+      <button onclick="append('00')">00</button>
+      <button onclick="append('0')">0</button>
+      <button onclick="append('.')">.</button>
+      <button onclick="calculate()" class="equals">=</button>
+    </div>
+  </div>
+
+  <script>
+    let expression = "";
+
+    function append(char) {
+      if (expression === "0") expression = "";
+      expression += char;
+      document.getElementById("expression").innerText = expression;
+    }
+
+    function clearAll() {
+      expression = "";
+      document.getElementById("expression").innerText = "0";
+      document.getElementById("result").innerText = "";
+    }
+
+    function deleteOne() {
+      expression = expression.slice(0, -1);
+      document.getElementById("expression").innerText = expression || "0";
+    }
+
+    function calculate() {
+      try {
+        const exp = expression.replace(/×/g, '*').replace(/÷/g, '/');
+        const result = eval(exp);
+        document.getElementById("result").innerText = result;
+      } catch {
+        document.getElementById("result").innerText = "Error";
+      }
+    }
+  </script>
+</body>
+</html>
